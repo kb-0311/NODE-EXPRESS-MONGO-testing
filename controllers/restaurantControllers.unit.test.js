@@ -9,9 +9,24 @@ describe('Creating Restaurant', () => {
 
         Restaurant.prototype.save = jest.fn(()=>{})
 
-         expect(createRestaurant("Amys" , "Sydnes" , "Persian")).rejects.toThrowError()
+         expect(createRestaurant("Amy's" , "Sydnes" , "Persian")).rejects.toThrowError()
     });
+
+    const restaurant = {
+        name:"abs",
+        location:"def",
+        cuisine:"ghi"
+
+    }
     
+    it('should create a unique restaurant', () => {
+        Restaurant.prototype.save = jest.fn(()=>{})
+        expect(createRestaurant("abs" , "def" , "ghi")).resolves.toStrictEqual({
+            restaurantName:restaurant.name,
+            restaurantCuisine:restaurant.cuisine,
+            restaurantLocation:restaurant.location
+        })
+    });
 
 })
 

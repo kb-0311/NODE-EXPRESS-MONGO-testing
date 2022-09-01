@@ -17,7 +17,9 @@ module.exports =  async function createRestaurant (name,location,cuisine){
         await restaurant.save();
 
         return {
-            restaurant:restaurant
+            restaurantName:restaurant.name,
+            restaurantCuisine:restaurant.cuisine,
+            restaurantLocation:restaurant.location
         }
     } catch (error) {
         return res.status(500).json({
