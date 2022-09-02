@@ -34,7 +34,7 @@ describe('Creating Restaurant', () => {
 })
 
 describe('Update Existing Restaurant', () => {
-     it('should not create a restaurant and throw an error', () => {
+     it('should not update an unexisting restaurant and throw an error', () => {
         Restaurant.findOne = jest.fn().mockReturnValueOnce({
         });
 
@@ -42,6 +42,26 @@ describe('Update Existing Restaurant', () => {
 
         expect(updateRestaurant("x" ,"y" , "z")).rejects.toThrowError();
 
+     });
+
+     it('should update an existing resturant', () => {
+        Restaurant.findOne= jest.fn().mockReturnValueOnce({
+            name:"x"
+        })
+        const restaurant = {
+            name:"x",
+            location:"y",
+            cuisine:"z"
+    
+        }
+
+        //Restaurant.prototype.save = jest.fn(()=>{});
+
+        expect(updateRestaurant("x" ,"y" ,"z")).resolves.toStrictEqual({
+            restaurantName:restaurant.name,
+            restaurantCuisine:restaurant.cuisine,
+            restaurantLocation:restaurant.location
+        })
      });
 })
 

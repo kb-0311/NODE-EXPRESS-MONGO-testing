@@ -3,7 +3,7 @@ const Restaurant = require("../models/restaurantModel");
 module.exports = {
     create :async function createRestaurant (name,location,cuisine){
         try {
-            const exists = Restaurant.findOne({name});
+            const exists = await Restaurant.findOne({name});
 
             if (exists) {
                 throw new Error(`A restaurant called ${name} Already exists`)
@@ -30,24 +30,35 @@ module.exports = {
 
     
     } ,
-    update: async function updateRestaurant(name ,location , cuisine) {
+    update: async function updateRestaurant(name , location , cuisine) {
         try {
-            const exists = Restaurant.findOne({name});
+            let exists = await Restaurant.findOne({name});
 
-            if (!exists) {
+            if (!exists.name) {
                 throw new Error('Restaurant with that name does not exist');
 
             }
+            
+            if (name) {
+                exists.name=name
+            }
+            if (location) {
+                exists.location=location;
+            }
+            if (cuisine) {
+                exists.cuisine=cuisine
+            }
 
-            const restaurantUpdated = Restaurant.findByIdAndUpdate(exists._id ,{
-                name,
-                location,
-                cuisine
-            })
 
-            await restaurantUpdated.save();
+            const restaurantUpdated = exists;
+
+             Restaurant.findByIdAndUpdate(exists._id , restaurantUpdated);
+
+
+            
 
             return {
+                
                 restaurantName:restaurantUpdated.name,
                 restaurantCuisine: restaurantUpdated.cuisine,
                 restaurantLocation:restaurantUpdated.location
@@ -56,10 +67,11 @@ module.exports = {
             }
 
         } catch (error) {
-            return res.status(500).json({
-                error : error.message
-            })
-            
+
+            throw new Error(error.message)
+            // return res.status(500).json({
+            //     error : error.message
+            // })            
         }
         
     }
