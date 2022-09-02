@@ -1,7 +1,9 @@
 const Restaurant = require('../models/restaurantModel')
-const createRestaurant = require('./restaurantControllers')
-describe('Creating Restaurant', () => { 
+const RestaurantController = require("./restaurantControllers");
+const createRestaurant = RestaurantController.create;
+const updateRestaurant = RestaurantController.update; 
 
+describe('Creating Restaurant', () => { 
     it('should not create a restaurant and throw error', () => {
         Restaurant.findOne = jest.fn().mockReturnValueOnce({
             name: "Amy's"
@@ -12,14 +14,15 @@ describe('Creating Restaurant', () => {
          expect(createRestaurant("Amy's" , "Sydnes" , "Persian")).rejects.toThrowError()
     });
 
-    const restaurant = {
-        name:"abs",
-        location:"def",
-        cuisine:"ghi"
 
-    }
     
     it('should create a unique restaurant', () => {
+        const restaurant = {
+            name:"abs",
+            location:"def",
+            cuisine:"ghi"
+    
+        }
         Restaurant.prototype.save = jest.fn(()=>{})
         expect(createRestaurant("abs" , "def" , "ghi")).resolves.toStrictEqual({
             restaurantName:restaurant.name,
@@ -28,5 +31,17 @@ describe('Creating Restaurant', () => {
         })
     });
 
+})
+
+describe('Update Existing Restaurant', () => {
+     it('should not create a restaurant and throw an error', () => {
+        Restaurant.findOne = jest.fn().mockReturnValueOnce({
+        });
+
+        Restaurant.prototype.save = jest.fn(()=>{})
+
+        expect(updateRestaurant("x" ,"y" , "z")).rejects.toThrowError();
+
+     });
 })
 
