@@ -77,7 +77,7 @@ module.exports = {
     } ,
     read :async function getAllRestaurants() {
         try {
-            const restaurants = Restaurant.find();
+            const restaurants = await Restaurant.find();
             if (!restaurants) {
                 throw new Error("no restaurants exists");
             }
