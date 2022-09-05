@@ -74,5 +74,17 @@ module.exports = {
             // })            
         }
         
+    } ,
+    read :async function getAllRestaurants() {
+        try {
+            const restaurants = Restaurant.find();
+            
+            if (!restaurants) {
+                throw new Error("no restaurants exists");
+            }
+            return restaurants
+        } catch (error) {
+            throw new Error(error);
+        }
     }
 }

@@ -2,6 +2,7 @@ const Restaurant = require('../models/restaurantModel')
 const RestaurantController = require("./restaurantControllers");
 const createRestaurant = RestaurantController.create;
 const updateRestaurant = RestaurantController.update; 
+const readRestaurant = RestaurantController.read;
 
 describe('Creating Restaurant', () => { 
     it('should not create a restaurant and throw error', () => {
@@ -64,4 +65,36 @@ describe('Update Existing Restaurant', () => {
         })
      });
 })
+
+describe('Read Restaurant Data ', () => {
+
+    it('should expect to not give a null value', () => {
+        Restaurant.find = jest.fn().mockReturnValueOnce([
+            {
+                name : "a",
+                location:"b",
+                cuisine:"c",
+            },
+            {
+                name : "d",
+                location:"e",
+                cuisine:"f",
+            }
+        ])
+
+        // Restaurant.prototype.save = jest
+
+        expect(readRestaurant()).not.toBe(null);
+
+        
+    });
+    
+    it('should expect to throw a null error', () => {
+
+        Restaurant.find = jest.fn().mockReturnValueOnce(null);
+
+        expect(readRestaurant()).rejects.toThrowError();
+        
+    });
+ })
 
