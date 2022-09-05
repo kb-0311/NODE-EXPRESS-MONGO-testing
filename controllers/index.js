@@ -9,13 +9,13 @@ const updateRestaurant = RestaurantController.update;
 router.post('/create' , (req,res)=>{
     const {name, location , cuisine} = req.body; 
 
-    const restaurant = await createRestaurant(name,location,cuisine);
+    const restaurant = createRestaurant(name,location,cuisine);
 })
 
 router.put('/update' , (req,res)=>{
     const {name , location , cuisine} = req.body;
 
-    const restaurant = await updateRestaurant(name,cuisine,location);
+    const restaurant = updateRestaurant(name,cuisine,location);
 
 
 })

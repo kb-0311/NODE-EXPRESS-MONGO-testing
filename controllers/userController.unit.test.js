@@ -9,7 +9,6 @@ describe('User Registration', () => {
             email:"1@2.com"
         })
 
-        User.prototype.save = jest.fn(()=>{})
 
         expect(createUser("ab" , "1@2.com" , "password")).rejects.toThrowError();
 
@@ -20,13 +19,14 @@ describe('User Registration', () => {
 
         User.findOne=jest.fn().mockReturnValueOnce(null);
 
-        User.create = jest.fn(()=>{});
 
         let user  = {
             name : "ab",
             email: "1@2.com",
             password : "password"
         }
+        User.prototype.save = jest.fn(()=>{})
+
 
         expect(createUser("ab", "1@2.com" , user.password)).resolves.toStrictEqual({
             userName :user.name,
